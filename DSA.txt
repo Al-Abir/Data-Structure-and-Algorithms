@@ -1,0 +1,46 @@
+DSA 
+ 
+Data Structure
+=======================
+Array
+String
+Linked list
+List
+Stack
+Queue
+Matrix
+Hash 
+Tree
+Time complexity
+=======================
+Algorithm List
+=======================
+Kadine's Algorithm 
+Two sum technique 
+Sliding window
+Rabin-karap - Algorithm 
+KMP
+Searching
+Sorting
+First and slow algorithm 
+Pattern searching 
+Divide and conquer
+Bitwise
+Greedy 
+Recursion 
+Backtracking
+Dynamic programing
+
+Graph
+------
+BFS
+DFS
+Dijkstra
+Floyd Warshall
+Minimum spanning  tree
+Prims 
+Kruskal's
+Topological sort
+Bellman ford
+======================
+
