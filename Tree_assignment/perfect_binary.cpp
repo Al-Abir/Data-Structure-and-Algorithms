@@ -54,6 +54,13 @@ int calculateDepth(Node *root) {
     if (!root) return 0;
     return 1 + calculateDepth(root->left);
 }
+int calculatePower(int base, int exp) {
+    int result = 1;
+    for (int i = 0; i < exp; ++i) {
+        result *= base;
+    }
+    return result;
+}
 
 bool isPerfectCheck(Node *root) {
     if (!root) return true;
@@ -66,7 +73,7 @@ bool isPerfectCheck(Node *root) {
 
 
     int totalNodes = countNodes(root);
-    return totalNodes == (1 << (leftDepth + 1)) - 1;  
+    return totalNodes == calculatePower(2, depth) - 1;  
 }
 
 int main() {
