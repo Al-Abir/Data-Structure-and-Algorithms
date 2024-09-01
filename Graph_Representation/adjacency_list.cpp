@@ -15,7 +15,9 @@ int main()
         mat[a].push_back(b);
         mat[b].push_back(a);
      }
-
+    for(int x: mat[0]){
+        cout<<x <<" ";
+    }
      for(int i =0; i<mat[3].size(); i++){
         cout<<mat[3][i]<<" ";
      }
