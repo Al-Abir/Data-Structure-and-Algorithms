@@ -1,8 +1,8 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-const int dirx[] = {2, 2, 1, 1, -1, -1, -2, -2};
-const int diry[] = {1, -1, 2, -2, 2, -2, 1, -1};
+const int x[] = {2, 2, 1, 1, -1, -1, -2, -2};
+const int y[] = {1, -1, 2, -2, 2, -2, 1, -1};
 int main()
 {
     int t;
@@ -26,8 +26,8 @@ int main()
             q.pop();
             for (int i = 0; i < 8; i++)
             {
-                int ci = pi + dirx[i];
-                int cj = pj + diry[i];
+                int ci = pi + x[i];
+                int cj = pj + y[i];
                 if (ci >= 0 && ci < n && cj >= 0 && cj < m && dist[ci][cj] == -1)
                 {
                     dist[ci][cj] = dist[pi][pj] + 1;
