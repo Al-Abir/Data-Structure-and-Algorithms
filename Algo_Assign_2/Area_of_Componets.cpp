@@ -5,29 +5,28 @@
 
 using namespace std;
 
-int dx[] = {-1, 1, 0, 0}; // Up, Down
-int dy[] = {0, 0, -1, 1}; // Left, Right
+int dx[] = {-1, 1, 0, 0}; 
+int dy[] = {0, 0, -1, 1}; 
 
-// BFS function to find the area of each component
-int bfs(int startX, int startY, vector<vector<char>>& grid, vector<vector<bool>>& visited, int n, int m) {
+int bfs(int x, int y, vector<vector<char>>& g, vector<vector<bool>>& vis, int n, int m) {
     queue<pair<int, int>> q;
-    q.push({startX, startY});
-    visited[startX][startY] = true;
+    q.push({x, y});
+    vis[x][y] = true;
     
     int area = 0;
     while (!q.empty()) {
-        int x = q.front().first;
-        int y = q.front().second;
+        int cx = q.front().first;
+        int cy = q.front().second;
         q.pop();
         area++;
         
         for (int i = 0; i < 4; i++) {
-            int newX = x + dx[i];
-            int newY = y + dy[i];
+            int nx = cx + dx[i];
+            int ny = cy + dy[i];
             
-            if (newX >= 0 && newX < n && newY >= 0 && newY < m && grid[newX][newY] == '.' && !visited[newX][newY]) {
-                visited[newX][newY] = true;
-                q.push({newX, newY});
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m && g[nx][ny] == '.' && !vis[nx][ny]) {
+                vis[nx][ny] = true;
+                q.push({nx, ny});
             }
         }
     }
@@ -39,30 +38,28 @@ int main() {
     int n, m;
     cin >> n >> m;
     
-    vector<vector<char>> grid(n, vector<char>(m));
+    vector<vector<char>> g(n, vector<char>(m));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            cin >> grid[i][j];
+            cin >> g[i][j];
         }
     }
     
-    vector<vector<bool>> visited(n, vector<bool>(m, false));
+    vector<vector<bool>> vis(n, vector<bool>(m, false));
     int minArea = INT_MAX;
-    bool foundComponent = false;
+    bool found = false;
     
-    // Traverse the grid and find components
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            if (grid[i][j] == '.' && !visited[i][j]) {
-                int area = bfs(i, j, grid, visited, n, m);
+            if (g[i][j] == '.' && !vis[i][j]) {
+                int area = bfs(i, j, g, vis, n, m);
                 minArea = min(minArea, area);
-                foundComponent = true;
+                found = true;
             }
         }
     }
     
-    // Output the result
-    if (foundComponent) {
+    if (found) {
         cout << minArea << endl;
     } else {
         cout << "-1" << endl;

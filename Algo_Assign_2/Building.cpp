@@ -1,58 +1,92 @@
 #include <bits/stdc++.h>
 #define pi pair<int, long long>
 using namespace std;
-vector<vector<pi>> adj;
-vector<bool> vis;
-long long prim(int s)
-{
-    int n = adj.size();
-    vis.assign(n, false);
-    priority_queue<pi, vector<pi>, greater<pi>> pq;
-    long long mincost = 0;
-    pq.push({0, s});
-    while (!pq.empty())
-    {
-        int parent = pq.top().second;
-        long long dis = pq.top().first;
-        pq.pop();
-        if (vis[parent])
-            continue;
-        vis[parent] = true;
-        mincost += dis;
-        for (const pi &child : adj[parent])
-        {
-            int childnode = child.first;
-            long long childcost = child.second;
-            if (!vis[childnode])
-            {
-                pq.push({childcost, childnode});
-            }
+
+class UnionFind {
+public:
+    vector<int> parent, rank;
+
+    UnionFind(int n) {
+        parent.resize(n);
+        rank.resize(n, 0);
+        for (int i = 0; i < n; i++) {
+            parent[i] = i; 
         }
     }
-    for (int i = 0; i < n; i++)
-    {
-        if (!vis[i])
-            return -1;
+
+    int find(int x) {
+        if (parent[x] != x)
+            parent[x] = find(parent[x]); 
+        return parent[x];
     }
+
+  
+    bool unionSets(int x, int y) {
+        int rtx = find(x);
+        int rty = find(y);
+
+        if (rtx == rty)
+            return false;
+
+   
+        if (rank[rtx] > rank[rty]) {
+            parent[rtx] = rty;
+        } else if (rank[rtx] < rank[rty]) {
+            parent[rtx] = rty;
+        } else {
+            parent[rty] = rtx;
+            rank[rtx]++;
+        }
+        return true;
+    }
+};
+
+
+long long kruskal(int n, vector<pair<long long, pi>> &edges) {
+
+    sort(edges.begin(), edges.end());
+
+    UnionFind uf(n);
+    long long mincost = 0;
+    int edgCt = 0;
+
+    for (const auto &edge : edges) {
+        long long weight = edge.first;
+        int u = edge.second.first;
+        int v = edge.second.second;
+        
+        if (uf.unionSets(u, v)) {
+            mincost += weight;
+           edgCt++;
+        }
+
+  
+        if (edgCt == n - 1)
+            break;
+    }
+
+    if (edgCt != n - 1)
+        return -1;
+
     return mincost;
 }
-int main()
-{
+
+int main() {
     int n, e;
     cin >> n >> e;
-    adj.resize(n);
-    vis.resize(n, false);
-    for (int i = 0; i < e; i++)
-    {
+
+    vector<pair<long long, pi>> edges; 
+
+    for (int i = 0; i < e; i++) {
         int a, b;
         long long w;
         cin >> a >> b >> w;
         a--;
         b--;
-        adj[a].push_back({b, w});
-        adj[b].push_back({a, w});
+        edges.push_back({w, {a, b}});
     }
-    long long mincost = prim(0);
+
+    long long mincost = kruskal(n, edges);
     if (mincost == -1)
         cout << "-1" << endl;
     else
