@@ -1,52 +1,45 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
-pair<int, int> maxWaterContainer(const vector<int>& heights, int N) {
-    int left = 0, right = N - 1; // Initialize two pointers
-    int maxArea = 0;
-    pair<int, int> result;
+pair<int, int> container(const vector<int>& h) {
+    int n = h.size();
+    
+    priority_queue<pair<int, int>> pq;
 
-    while (left < right) {
-        // Calculate height and width
-        int height = min(heights[left], heights[right]);
-        int width = right - left;
-        int area = height * width;
-
-        // Update maxArea and result if we found a new max
-        if (area > maxArea) {
-            maxArea = area;
-            result = {left, right}; // Store the indices
-        }
-
-        // Move the pointer of the shorter line towards the center
-        if (heights[left] < heights[right]) {
-            left++; // Move left pointer to the right
-        } else {
-            right--; // Move right pointer to the left
-        }
+    
+    for (int i = 0; i < n; ++i) {
+        pq.push({h[i], i});
     }
 
-    return result;
+  
+    pair<int, int> first_t = pq.top(); pq.pop();
+    pair<int, int> second_s = pq.top(); pq.pop();
+
+   
+    if (first_t.second < second_s.second) {
+        return {first_t.second, second_s .second};
+    } else {
+        return {second_s.second, first_t.second};
+    }
 }
 
 int main() {
-    int T;
-    cin >> T; // Number of test cases
+    int test;
+    cin >>test; 
 
-    while (T--) {
-        int N;
-        cin >> N; // Number of lines
-        vector<int> heights(N);
-        
-        // Input the heights
-        for (int i = 0; i < N; ++i) {
-            cin >> heights[i];
+    while (test--) {
+        int n;
+        cin >> n; 
+        vector<int> h(n);
+ 
+        for (int i = 0; i < n; ++i) {
+            cin >> h[i];
         }
 
-        // Find the result for this test case
-        pair<int, int> result = maxWaterContainer(heights, N);
-        cout << result.first << " " << result.second << endl; // Output the result
+        pair<int, int> res = container(h);
+        cout << res.first << " " << res.second << endl; 
     }
 
     return 0;
